@@ -6,7 +6,7 @@ An order-of-magnitude design study: what it would take to run a frontier-scale A
 
 Concept page: <https://claude.ai/artifact/7VSHW81KFbXrb4tn4H8KyR> · Contact: [@shadowllm](https://x.com/shadowllm)
 
-Archived PDF: [doi:10.5281/zenodo.24140130](https://doi.org/10.5281/zenodo.24140130)
+Archived PDF: [doi:10.5281/zenodo.24140129](https://doi.org/10.5281/zenodo.24140129)
 
 Revised November 11, 2026. This revision corrects the sizing of the Earth machine, replaces the magnetic memory with laser-programmed ROM tiles, adds a reference design for the crater machine with its heat budget, re-stages the program as a ladder of oracles, re-costs it, and checks the public figures against sources. The corrections are listed at the end.
 
@@ -269,6 +269,10 @@ Small cryocoolers reach only 2 to 5% of that ideal near 10 K, and 1 to 2% near 4
 
 The radiator areas assume a plate that sees nothing but deep sky. Inside a 40 K cold trap or vault, a plate colder than 40 K gains heat from its surroundings. A passive stage below the local temperature therefore needs a shielded view of the sky from the surface, and its shields and supports bring heat leaks that this brief has not budgeted. The passive figures are bounds, not designs.
 
+A passive stage of that kind has been proposed before. The 2010 NASA Tech Brief cited in section 11 describes reflective shields held on low-conductivity suspensions, or levitated on superconductors, and estimates that shielded objects in a polar crater could reach several kelvin ([NASA Tech Briefs](https://www.techbriefs.com/component/content/article/8172-ssc-00259-1)). If such a stage held 25 K, a radiator would shed 0.02 W/m², about 50 m² per watt, and the oracle's load of roughly half a watt would need about 25 m² of shielded plate and no cooler at all. The choice of superconductor is then a choice of thermal architecture. It is still undesigned, and MgB₂ logic is still at six junctions.
+
+A 2026 conference abstract proposes the same architecture for quantum hardware: a tile cooled by contact with the crater floor, a bus coated in low-emissivity material, and a suspended cone that radiates to the sky and is said to settle near 6 K in lunar winter ([Ni et al., LPSC 2026](https://www.hou.usra.edu/meetings/lpsc2026/pdf/1148.pdf)). It gives no heat loads, areas or emissivities, so it shows that others are pursuing a passive stage, not that one carries half a watt.
+
 **Operating temperatures and materials.** Candidate superconductors and their critical temperatures (public):
 
 | Material | T\_c | Operates comfortably below | Lunar availability |
@@ -287,7 +291,9 @@ Niobium is not a gram-scale import at full size. The stack is about 0.75 µm of 
 
 **Coarse superconducting circuits have been built before.** IBM's Josephson computer project used a 2.5 µm lead-alloy process with latching logic on AC power before it was cancelled in 1983 ([IBM](https://research.ibm.com/publications/ac-powered-josephson-latch-circuits); [Physics Today](https://physicstoday.aip.org/features/between-research-and-development-ibm-and-josephson-computing)). Earlier still, the thin-film cryotron circuits of the 1960s were evaporated in vacuum through metal masks, at line widths of 125 to 500 µm, and run near 3.5 K ([Electronic Design](https://www.electronicdesign.com/archive/rca-computer-memory-uses-superconductivity)). That is the resist-free method this brief proposes, sixty years early. It is also the warning: cryotron arrays of 10<sup>4</sup> to 10<sup>6</sup> components had serious yield problems, and insulator reliability ended the IBM effort ([IEEE CSC history](https://snf.ieeecsc.org/files/ieeecsc/slides/RN28e-1.pdf)). Today's densest process, MIT Lincoln Laboratory's SFQ5ee, has 350 nm features on 200 mm wafers ([Tolpygo et al.](https://arxiv.org/abs/1509.05081)), and the largest circuit reported in it has about 809,000 junctions ([Semenov et al.](https://arxiv.org/abs/1701.03837)). The full oracle needs about 10<sup>11</sup> (section 10).
 
-MIT Lincoln Laboratory is not the only line. The Shanghai Institute of Microsystem and Information Technology has published a niobium process with 0.5 µm junctions at 15 kA/cm², built in 19 mask levels with planarization between layers ([Ying et al.](https://arxiv.org/abs/2304.01588)). That mask count is what a conventional process costs, and it is what the resist-free route of section 7 sets out to avoid.
+MIT Lincoln Laboratory is not the only line. The Shanghai Institute of Microsystem and Information Technology has published a niobium process with 0.5 µm junctions at 15 kA/cm², built in 19 mask levels with planarization between layers ([Ying et al.](https://arxiv.org/abs/2304.01588)). That mask count is what a conventional process costs, and it is what the resist-free route of section 7 sets out to avoid. The 10 µm target here is far coarser than that line already runs, which makes such an institute a possible venue for Phase 1 and not only a citation.
+
+An earlier process from the same institute used 10 mask levels, with three niobium layers and a molybdenum resistor layer ([Ying et al., 2020](https://arxiv.org/abs/2011.06272)). A slow clock is not an obstacle for the logic family chosen here: AQFP gates are driven by flux, and a buffer chain, logic gates and a full adder have been tested at 100 kHz on a 1 kA/cm² niobium process with 1.2 µm junctions ([Yamae et al.](https://pmc.ncbi.nlm.nih.gov/articles/PMC12639130)).
 
 ## 7. Patterning without resist
 
@@ -337,7 +343,7 @@ The south polar region supplies a heat sink near 40 K, sunlight about 90% of the
 A = \frac{Q}{\epsilon \sigma \left(T_r^4 - T_s^4\right)} = \frac{100 \text{ W}}{0.9 \times 5.67 \times 10^{-8} \times \left(60^4 - 40^4\right)} \approx 190\ \text{m}^2 \text{ at } T_r = 60 \text{ K}
 ```
 
-The radiator is foil laid on the crater floor. The foil is warmer than the floor, so contact with the regolith carries heat away and helps. Section 10 puts the cooler's reject heat at 130 to 330 W, which needs 250 to 620 m².
+The radiator is foil laid on the crater floor. The foil is warmer than the floor, so contact with the regolith carries a little heat away; cold regolith conducts poorly, and radiation does nearly all the work. The radiator's few hundred watts also warm the ground around it, so it should stand well clear of the vault and of any ice worth keeping. Section 10 puts the cooler's reject heat at 130 to 330 W, which needs 250 to 620 m².
 
 **Volatiles.** The cold traps hold what dry regolith lacks. The LCROSS impact plume was 5.6 ± 2.9% water by mass, with ammonia at about 6% of the water and carbon as carbon dioxide, methane, methanol and ethylene ([Colaprete et al.](https://www.chem.uci.edu/~unicorn/old/H2A/handouts/PDFs/LCROSSPaper.pdf)). That is roughly 3 g of ammonia per kilogram of that soil: nitrogen for the NbN process and carbon for lubricants, within reach of the vault. It cuts both ways. The same ice is a scientific record, and warm machinery in a cold trap will drive it off.
 
@@ -350,6 +356,8 @@ P = 1361 \times 0.2 \times 0.9 \approx 245\ \text{W/m}^2 \text{ average}; \quad 
 ```
 
 That power runs the refinery, not the oracle. Molten regolith electrolysis has been measured at about 100 kWh per kilogram of oxygen ([NASA KSC](https://ntrs.nasa.gov/api/citations/20110008535/downloads/20110008535.pdf); [Schreiner](https://dspace.mit.edu/handle/1721.1/98589)). So 100 kW yields about 8 tonnes of oxygen a year and roughly as much mixed iron, silicon and aluminium. The first version of this brief assumed five to ten times more metal, which no source supports. The cells run near 1,600 °C on iridium anodes, and no anode material is yet fully satisfactory ([Allanore](https://www.doi.org/10.1149/2.0451501JES)). A cell that freezes during a five-day night may not restart, so the plant needs stored energy or a keep-warm mode.
+
+That choice of cell is contested. A group at Northeastern University in Shenyang, with the Lanzhou Institute of Physics, electrolysed a mare simulant at 650 °C in a melt of potassium and aluminium fluorides, with an iron-nickel anode, and measured anode gas at about 95% oxygen after two hours ([Li et al., 2024](https://doi.org/10.12034/j.issn.1009-606X.223318), in Chinese). The same laboratory earlier ran a cryolite melt at 960 °C with a similar anode ([Xie et al., 2017](https://link.springer.com/article/10.1007/s11837-017-2478-4)). These are bench cells run for hours. Their products are mixed alloys, and the fluoride melt is itself an import that has to be recycled. But they need neither iridium nor 1,600 °C, and electricity is their only reductant, which suits a closed foundry. Phase 0 should compare the two routes.
 
 **Power down the wall.** Power reaches the floor by cable, not by beam. A microwave or laser link would scatter off the crater walls and heat exactly the surfaces the design needs to stay cold. The cable's heat leak is set by physics more than by its material. Metals carry heat and charge with the same electrons (the Wiedemann–Franz law), so a conductor that improves electrically as it cools also improves thermally. For a lead sized optimally between two temperatures, the minimum heat delivered to the cold end per amp is nearly independent of the metal:
 
@@ -419,6 +427,8 @@ That is the largest dissipation in the cold machine, and for one stream it is st
 
 **Working memory.** Read-write memory is the weak point. A superconducting RAM cell needs junctions in every bit: about 100 F² and three junctions (est.), against 10 F² and a hundredth of a junction for ROM. The context cache of section 1 is 10<sup>11</sup> bits at 8,000 tokens. That would be 1,000 m² and 3×10<sup>11</sup> junctions, more active devices than the rest of the machine. With grouped 4-bit keys and values it is about 6×10<sup>9</sup> bits, which is 60 m² and 2×10<sup>10</sup> junctions, still a fifth as many as the rest of the machine. There are two ways out. The baseline keeps the context cache on an imported cryogenic CMOS memory module at the 40 K stage: a few hundred grams that stay on the import list. The alternative that imports nothing is a short context with compressed keys and values. A thousand tokens at one-sixteenth width is 8×10<sup>8</sup> bits, about 8 m² and 2×10<sup>9</sup> junctions.
 
+The three-junction figure is optimistic. A published Josephson RAM design uses eight junctions per cell, with a projected footprint of 2 µm² on a process with 50 nm wiring ([Herr et al.](https://arxiv.org/abs/2303.16801)). At eight junctions a cell, even the compressed cache would take as many junctions as half the rest of the machine, which strengthens the case for importing that memory.
+
 ## 10. The crater machine
 
 Put together, the full oracle is about 14,000 m² of tile stacked into a block four metres on a side, in a vault under two metres of regolith. It dissipates milliwatts, needs about a watt of cooling at 8 K, draws about half a kilowatt in all, and produces one token every ten seconds for each of about a hundred conversations. Every figure in this section is an estimate.
@@ -487,7 +497,7 @@ About a hundred conversations interleave across the layers, for roughly ten toke
 | New scale risk | none | 100,000 times the junction record |
 | Can be made on the Moon | no | that is the proposal |
 
-The crater oracle draws fewer watts in total and can be made in place. Landed silicon wins every other row. A second alternative keeps some of the benefit of the cold: coarse CMOS run at 100 to 150 K, with no cryocooler and no junction-count risk. Its 3 to 7 kW would need about 120 to 270 m² of radiator at 150 K. It is not worked here and should be, but it too is an import. Valves, which Ellery proposes for logic, are already in this plan for power and radio (section 11). The crater machine's justification is that it can be built where it stands. For a decade or more it would be far worse than landed silicon at every point on the token curve, and anyone who wants tokens on the Moon should land silicon.
+The crater oracle draws fewer watts in total and can be made in place. Landed silicon wins every other row. A second alternative keeps some of the benefit of the cold: coarse CMOS run at 100 to 150 K, with no cryocooler and no junction-count risk. Its 3 to 7 kW would need about 120 to 270 m² of radiator at 150 K. It is not worked here and should be, but it too is an import. Valves, which Ellery proposes for logic, are already in this plan for power and radio (section 11). The crater machine's justification is that it can be built where it stands. For a decade or more it would be far worse than landed silicon at every point on the token curve, and anyone who wants tokens on the Moon should land silicon. The import ledger of section 11 says the same. A landed machine of 1 to 2 tonnes, replaced every ten years, costs 100 to 200 kg a year for 2,000 tokens a second; the rung-1 foundry needs 110 to 240 kg a year for a far slower oracle. Local manufacture does not win on kilograms per token at any scale this program reaches. What it buys is the ability to add mass without an import bill, and an oracle is a hard first product to judge that by. Running landed silicon cold is probably a poor trade too, since the extra radiator outweighs the solar array it saves.
 
 **The junction count is the number to respect.** About 10<sup>11</sup> junctions is 100,000 times the largest superconducting circuit yet reported (section 6). Most of them are line drivers, comparators and sequencers, one set per thousand cells, so the count follows the memory and not the speed. Longer lines with stronger word pulses would cut it. Each rung of the ladder in section 12 multiplies the junction count by 15 to 35, and rung 0, at several million, is already about six times the record.
 
@@ -503,6 +513,10 @@ The program's real output is a measured import ledger: what the loop cannot make
 
 Lunar chipmaking has also been raised by a chipmaker. In September 2026 the chief executive of Rapidus, in Japan, said he was seriously considering a lunar plant around 2040 ([Tencent News, in Chinese](https://news.qq.com/rain/a/20260912A04SUJ00)). That proposal is for conventional silicon and turns on lunar water. The Chinese-language search found commentary on lunar data centres and on quantum computing in shadowed craters, but no proposal for superconducting inference hardware built there.
 
+Three more predecessors narrow what is new here. In 2012 Ouliang Chang, a graduate student at the University of Southern California, proposed a supercomputer in a deep crater near a lunar pole, using the cold for superconductors, at $10 to 20B ([KurzweilAI account](https://www.kurzweilai.net/why-we-need-a-supercomputer-on-the-moon)). The cost band of section 12 is fourteen years old. Neural-network inference on superconducting logic already exists: SUSHI, from the Institute of Computing Technology and the Shanghai institute of section 6, ran a complete network on a chip of about 10<sup>5</sup> junctions at 1,355 billion synaptic operations per second ([Liu et al., MICRO 2023](https://doi.org/10.1145/3613424.3623787)). Per junction that is several hundred thousand times the oracle's rate. The operations are not like for like, but the gap is real: the oracle runs a clock thousands of times slower, works one layer in a hundred at a time, and spends most of its junctions on memory drivers. And stencil lithography has made superconducting tunnel junctions at wafer scale ([Savu et al.](https://infoscience.epfl.ch/record/134567)). What remains new is narrower than the paragraph above claims: a resist-free route that could run in open lunar vacuum, and weights held in passive links that need no power and no reloading.
+
+There is a Chinese precedent as well. A 2018 lunar-base plan from the Shanghai Institute of Aerospace System Engineering makes its eighth stage a low-temperature test system delivered to a permanently shadowed region, 15 tonnes landed on a Long March 9, for superconductivity research, cryogenic propellant storage and infrared instruments, and it names superconducting electromagnetic launch as a later use of the same cold ([Yuan, Zhao and Hu](https://doi.org/10.15982/j.issn.2095-7777.2018.04.008), in Chinese). It does not propose computing there.
+
 **The quantity to measure.** Closure by mass is the wrong metric. A loop can be 99.9% closed by mass and still die for want of a 15 kg laser. Measure instead the import rate that sustains a stated capability indefinitely:
 
 ```math
@@ -515,7 +529,7 @@ Here m is the mass of each imported item, τ its service life, and c the consuma
 
 | Item | Why it is imported | kg per year | Route to local |
 | --- | --- | --- | --- |
-| Electrolysis anodes and crucibles | iridium anodes, refractories | 50–150 | local refractories; the largest line |
+| Electrolysis anodes and crucibles | iridium anodes, refractories | 50–150 | local refractories, or a 650 °C fluoride cell with iron-nickel anodes (section 8); the largest line |
 | Precision stages and bearings | sub-micron mechanics | 15–30 | the hardest item |
 | Lasers, scanners, lenses | crystals, diodes, coatings | 10–20 | stays imported |
 | Sensors, radios, power converters | semiconductors | 10 | vacuum devices for power and radio |
@@ -583,7 +597,7 @@ Gate 1: a tile of about 20 cm², carrying a 1 Mbit ROM and its multiply units, r
 
 **Phase 2, rehearsal on Earth, years 2–5, $100–200M.** The whole loop runs in a large thermal-vacuum chamber: a simulant bed, an electrolysis cell, deposition heads, a 40 K shroud around a cooled vault, robots, a 2.5-second command delay and an AI operator running on an ordinary computer. Everything that enters the chamber after the door closes is weighed and logged. Chambers of the needed size exist and can be hired; NASA's [Space Power Facility](https://www.nasa.gov/glenn/armstrong-test-facility/space-environments-complex/) is 22,653 m³. Gate 2: one square metre of tile, made in the chamber, runs a GPT-2-class model, and the import ledger for a year of operation is published. This is the cheapest place to find the thousandth missing input, and the first version of this brief skipped it.
 
-Gate 2 is close to the whole thesis working, and its price may be low by several times. It can be staged: imported feedstock before simulant, and 99% junction yield before 99.9%.
+Gate 2 is close to the whole thesis working, and its price may be low by several times. It can be staged: imported feedstock before simulant, and 99% junction yield before 99.9%. The junction record of about 8×10<sup>5</sup> falls between Gate 1 and rung 0, so the checkpoints of Phase 1 continue to 10<sup>6</sup> before Gate 2.
 
 **Phase 3, lunar precursors, years 4–8, $0.5–1.5B.** Two or three payloads of 100 to 400 kg on commercial landers, in place of one large plant:
 
@@ -644,9 +658,9 @@ The risks that could end the program are scale, patterning and chemistry. The ph
 | Tiles in a sealed block at 8 K cannot be reached; tile-to-tile interconnect is undesigned | high | one failed tile or joint degrades the whole stack | edge connectors, spare tiles, test before stacking; design in Phase 1 |
 | Expert routing and stream scheduling are undesigned | medium | far fewer than a hundred streams | design in Phase 0; accept fewer streams |
 | No passive stage is possible below the 40 K surroundings | medium | the cooler stays an import for good | study a shielded sky-view radiator; redundant coolers |
-| Weights are frozen once the links are cut | certain | the oracle ages with its model; a new model means new tiles | accepted: it is an oracle, not a service |
+| Weights are frozen once the links are cut | certain | the oracle ages with its model; a new model means new tiles (six days of scribing for rung 1, eighteen years for rung 3) | accepted: it is an oracle, not a service |
 
-Likelihoods are judgments, not statistics. The first three rows are new in this revision, and they are where Phase 1 spends most of its money.
+Likelihoods are judgments, not statistics. The first three rows are where Phase 1 spends most of its money.
 
 ## 14. What transfers to the asteroid belt
 
@@ -778,6 +792,8 @@ A second pass on 11 November searched Chinese-language sources, which the first 
 
 A third pass on 11 November answered a critique from an AI reviewer, Alibaba's Qwen. It added the comparison with landed silicon and cold CMOS (section 10) and a sentence in the abstract saying the crater machine is not the efficient choice. It marked the passive-cooling endpoint as unproven (sections 6 and 10), turned the context-cache estimate into a range of 1 to 13 GB (sections 1, 3 and 9), and corrected the batching claim for mixture-of-experts models (sections 1 and 2). It noted that routing between experts is undesigned, that large loops still trap flux, and that the Chang'e-5 water yield is a single surprising result. It added five rows to the risk register, staged Gates 1 and 2, gave Phase 0 its list of questions, and separated the closure question from the oracle (section 12). Three of the critique's points were checked and not adopted: a radiator warmer than the floor loses heat to it, AQFP gates are driven by flux and do not need a fast clock, and the wafer counts for rungs 0 and 1 stand.
 
+A fourth pass on 11 November answered a second critique from the same reviewer, which supplied candidate prior art. Each citation was checked before use. Eight were confirmed and added: the Tech Brief's shielded passive stage, a 2026 abstract proposing a passive 6 K stage, and a 25 K radiator estimate (section 6), a second Shanghai process and a low-speed AQFP test (section 6), a published Josephson RAM cell (section 9), and the 2012 lunar supercomputer proposal, the SUSHI chip, wafer-scale stencil junctions and a 2018 Chinese lunar-base plan (section 11). The novelty claim was narrowed to match. Section 10 now compares landing with building on the import ledger. A bench-scale electrolysis route at 650 °C with iron-nickel anodes was added to section 8 once its source was found. Citations that could not be confirmed were left out, and one review the critique relied on has been retracted.
+
 ## Sources
 
 These pages were opened and read on 11 November 2026 to check the figures marked sourced. Several are abstracts, slides or secondary copies of the primary paper, and a few values rest on single samples or a scanned table, as the appendix notes.
@@ -841,3 +857,19 @@ These pages were opened and read on 11 November 2026 to check the figures marked
 - [Lunar regolith 3D printing system](https://www.stdaily.com/web/gdxw/2025-07/28/content_376413.html), Science and Technology Daily, 2025 (in Chinese)
 - [Ying et al., 15 kA/cm² fabrication process for superconducting digital circuits](https://arxiv.org/abs/2304.01588)
 - [Rapidus wants to make chips on the Moon](https://news.qq.com/rain/a/20260912A04SUJ00), Tencent News, 2026 (in Chinese)
+
+**Added in the fourth pass**
+
+- [Ying et al., Development of multi-layer fabrication process for SFQ large scale integrated digital circuits](https://arxiv.org/abs/2011.06272)
+- [Yamae et al., RSFQ and AQFP cell libraries using a 1 kA/cm² niobium process](https://pmc.ncbi.nlm.nih.gov/articles/PMC12639130), Scientific Reports 2025
+- [Herr et al., Superconducting pulse conserving logic and Josephson-SRAM](https://arxiv.org/abs/2303.16801)
+- [Liu et al., SUSHI: neuromorphic chip using superconducting single-flux-quantum circuits](https://doi.org/10.1145/3613424.3623787), MICRO 2023
+- [Why we need a supercomputer on the Moon](https://www.kurzweilai.net/why-we-need-a-supercomputer-on-the-moon), KurzweilAI, 2012: account of Ouliang Chang's proposal
+- [Savu et al., Quick and clean: stencil lithography for wafer-scale fabrication of superconducting tunnel junctions](https://infoscience.epfl.ch/record/134567), Applied Superconductivity Conference 2008
+
+* [Ni et al., Quantum infrastructure inside permanently shadowed regions on the Moon](https://www.hou.usra.edu/meetings/lpsc2026/pdf/1148.pdf), LPSC 2026, abstract 1148
+
+- [袁勇, 赵晨, 胡震宇. 月球基地建设方案设想 (Prospect of lunar base construction scheme)](https://doi.org/10.15982/j.issn.2095-7777.2018.04.008), 深空探测学报 (Journal of Deep Space Exploration), 2018, 5(4): 374–381
+
+* [李承放, 刘爱民, 谢开钰, 等. KF-AlF₃熔盐低温可视化电解NEU-1月壤仿真样 (Visualization electrolysis of NEU-1 lunar soil simulant in KF-AlF₃ electrolyte at low temperature)](https://doi.org/10.12034/j.issn.1009-606X.223318), 过程工程学报 (Chinese Journal of Process Engineering), 2024, 24(8): 972–981
+* [Xie et al., Aluminothermic reduction–molten salt electrolysis using inert anode for oxygen and Al-base alloy extraction from lunar soil simulant](https://link.springer.com/article/10.1007/s11837-017-2478-4), JOM 69, 2017
