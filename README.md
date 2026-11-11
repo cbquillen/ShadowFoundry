@@ -6,6 +6,8 @@ An order-of-magnitude design study: what it would take to run a frontier-scale A
 
 Concept page: <https://claude.ai/artifact/7VSHW81KFbXrb4tn4H8KyR> · Contact: [@shadowllm](https://x.com/shadowllm)
 
+Archived PDF: [doi:10.5281/zenodo.24140130](https://doi.org/10.5281/zenodo.24140130)
+
 Revised November 11, 2026. This revision corrects the sizing of the Earth machine, replaces the magnetic memory with laser-programmed ROM tiles, adds a reference design for the crater machine with its heat budget, re-stages the program as a ladder of oracles, re-costs it, and checks the public figures against sources. The corrections are listed at the end.
 
 ## How to read this
