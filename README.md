@@ -25,7 +25,7 @@ The argument runs in three parts. Sections 1 to 5 size an Earth-side machine on 
 
 ## 1. The model being hosted
 
-The machine has to hold about 1.2 TB and perform about 4×10<sup>11</sup> operations per token. Everything else follows from those two numbers.
+The machine has to hold about 1.2 terabytes of weights (2 trillion parameters at 4 bits each, plus error correction) and perform about 4×10<sup>11</sup> operations per token. Everything else follows from those two numbers.
 
 **Parameters.** A 2T-parameter mixture-of-experts model with 200B parameters active per token (the shape of several current frontier models) is the working assumption. Where a derivation needs them, it has about 100 layers and a hidden size of about 8,000. A dense 2T model would need ten times the operations per token but the same storage; the storage figures below apply to both.
 
