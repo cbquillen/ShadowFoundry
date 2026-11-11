@@ -10,6 +10,24 @@ Archived PDF: [doi:10.5281/zenodo.24140130](https://doi.org/10.5281/zenodo.24140
 
 Revised November 11, 2026. This revision corrects the sizing of the Earth machine, replaces the magnetic memory with laser-programmed ROM tiles, adds a reference design for the crater machine with its heat budget, re-stages the program as a ladder of oracles, re-costs it, and checks the public figures against sources. The corrections are listed at the end.
 
+## Abstract
+
+Shadow Foundry is an order-of-magnitude design study of how simple the hardware can be and still run a frontier-scale AI model, if speed is given up. The working case is a 2-trillion-parameter mixture-of-experts model with 200 billion parameters active per token, stored at 4 bits per weight (1.2 TB with error correction). The study finds that storage, not computation, sets the technology floor.
+
+Two machines are worked through. The first is an Earth machine built on 350 or 180 nm chip processes, with weights held in read-only or one-time-programmable memory. It runs about 20 tokens per second on 10–30 kW. The second is a machine in a permanently shadowed crater at a lunar pole, using niobium-nitride superconducting logic at 8–10 K, patterned without photoresist by stencil or laser scribing, with weights stored as laser-programmed inductive links on about 14,000 m² of tile. It produces one token every 10 seconds per stream, across about 100 streams, on roughly 0.5 kW.
+
+The brief derives every figure in the open and tags each with its basis and uncertainty. It closes with a five-phase, gated research program of about $6–17B over 15 years, of which the first three phases, all on Earth, total $130–260M. Progress toward self-sufficiency is measured by the mass imported from Earth per year. Nothing described here has been built, and no specialist has yet reviewed the work.
+
+**摘要**
+
+“影子铸造厂”（Shadow Foundry）是一项以数量级为尺度的设计研究，要回答的是：若不再追求速度，运行前沿级大模型的硬件究竟能简单到什么地步。研究对象是一个两万亿参数的混合专家模型，每个词元激活约两千亿参数，权重以4比特精度存储（算上纠错开销共1.2 TB）。研究发现，决定技术下限的是存储，而不是计算。
+
+文中推演了两种机器方案。第一台建在地球上，采用350或180纳米制程，权重存放在掩膜只读存储器或一次性可编程存储器中，功耗10至30千瓦，每秒约20个词元。第二台位于月球极区永久阴影区的撞击坑内，采用在8至10 K下工作的氮化铌超导逻辑，图形经镂空掩膜成形，或由激光刻划成形，全程不用光刻胶；权重以激光熔断编程的电感连接形式，存于约1.4万平方米的基板上。在约100路并发会话下，每路每10秒生成一个词元，整机功耗约500瓦。
+
+文中每个数字都给出推导，并注明依据与不确定度。文末给出一份分五个阶段、逐阶段设关口的研究计划，15年内约需60亿至170亿美元；其中前三个阶段全部在地球上完成，合计1.3亿至2.6亿美元。自给程度以每年仍需从地球运入的质量来衡量。上述一切均尚未建成，也未经相关领域专家评审。
+
+本文由 Carl Quillen 与 Anthropic 的人工智能模型 Claude 共同撰写。Carl Quillen 主持并审阅了这项工作，并对内容负责。
+
 ## How to read this
 
 This is the napkin behind the Shadow Foundry page: every figure there is derived here, in the open, so that someone serious can check it, replace an assumption, and see what moves. Nothing in it has been built or measured by us. Every number is an order-of-magnitude estimate. Published figures that could be checked were checked for this revision; they are linked where they are used or listed at the end. Treat each number as good to a factor of three unless a tighter range is stated.
@@ -267,6 +285,8 @@ Niobium is not a gram-scale import at full size. The stack is about 0.75 µm of 
 
 **Coarse superconducting circuits have been built before.** IBM's Josephson computer project used a 2.5 µm lead-alloy process with latching logic on AC power before it was cancelled in 1983 ([IBM](https://research.ibm.com/publications/ac-powered-josephson-latch-circuits); [Physics Today](https://physicstoday.aip.org/features/between-research-and-development-ibm-and-josephson-computing)). Earlier still, the thin-film cryotron circuits of the 1960s were evaporated in vacuum through metal masks, at line widths of 125 to 500 µm, and run near 3.5 K ([Electronic Design](https://www.electronicdesign.com/archive/rca-computer-memory-uses-superconductivity)). That is the resist-free method this brief proposes, sixty years early. It is also the warning: cryotron arrays of 10<sup>4</sup> to 10<sup>6</sup> components had serious yield problems, and insulator reliability ended the IBM effort ([IEEE CSC history](https://snf.ieeecsc.org/files/ieeecsc/slides/RN28e-1.pdf)). Today's densest process, MIT Lincoln Laboratory's SFQ5ee, has 350 nm features on 200 mm wafers ([Tolpygo et al.](https://arxiv.org/abs/1509.05081)), and the largest circuit reported in it has about 809,000 junctions ([Semenov et al.](https://arxiv.org/abs/1701.03837)). The full oracle needs about 10<sup>11</sup> (section 10).
 
+MIT Lincoln Laboratory is not the only line. The Shanghai Institute of Microsystem and Information Technology has published a niobium process with 0.5 µm junctions at 15 kA/cm², built in 19 mask levels with planarization between layers ([Ying et al.](https://arxiv.org/abs/2304.01588)). That mask count is what a conventional process costs, and it is what the resist-free route of section 7 sets out to avoid.
+
 ## 7. Patterning without resist
 
 A Josephson process can be reduced to about eight deposition and barrier-growth steps with no photoresist, developer, wet etch or pump. Two dry ways of patterning fit it: depositing through mechanical stencils, and scribing blanket films with a pulsed laser. Both cost feature size, 5 to 20 µm in place of 1 µm, which costs density and nothing in function at low clock rates. Stencils suit the first rungs of the ladder. At full size the arithmetic favours scribing.
@@ -318,6 +338,8 @@ A = \frac{Q}{\epsilon \sigma \left(T_r^4 - T_s^4\right)} = \frac{100 \text{ W}}{
 The radiator is foil laid on the crater floor. Section 10 puts the cooler's reject heat at 130 to 330 W, which needs 250 to 620 m².
 
 **Volatiles.** The cold traps hold what dry regolith lacks. The LCROSS impact plume was 5.6 ± 2.9% water by mass, with ammonia at about 6% of the water and carbon as carbon dioxide, methane, methanol and ethylene ([Colaprete et al.](https://www.chem.uci.edu/~unicorn/old/H2A/handouts/PDFs/LCROSSPaper.pdf)). That is roughly 3 g of ammonia per kilogram of that soil: nitrogen for the NbN process and carbon for lubricants, within reach of the vault. It cuts both ways. The same ice is a scientific record, and warm machinery in a cold trap will drive it off.
+
+**Recent Chinese work.** A search of Chinese-language sources on 11 November 2026 added four items that bear on the site. A 2026 thermal model of Shackleton crater from China's National Space Science Center finds most of the crater floor favourable for stable ice; only a secondary account of the paper was read ([China in Space](https://www.china-in-space.com/p/scientists-publish-model-of-potential)). Chang'e-7, which carries a hopper to look for ice inside a shadowed crater, was stood down on 23 August 2026 and missed that year's launch window ([CNSA, in Chinese](https://www.cnsa.gov.cn/n6758823/n6758838/c10770822/content.html)), so no measurement made in place is expected before 2027. Heating Chang'e-5 soil above 1,200 K released 51 to 76 mg of water per gram, from solar-wind hydrogen held mostly in ilmenite ([Ningbo Institute of Materials Technology and Engineering](https://phys.org/news/2024-08-strategy-massive-production-moon.html)). If that holds at scale, water is a by-product of melting regolith anywhere, and the foundry's hydrogen does not depend on the cold trap alone. And a solar concentrator feeding fibre bundles has melted regolith feedstock above 1,300 °C with no additives ([Deep Space Exploration Laboratory, in Chinese](https://www.stdaily.com/web/gdxw/2025-07/28/content_376413.html)), which is close to the step that makes tile substrates.
 
 **Power.** Solar flux at 1 AU is 1,361 W/m². The best south-pole sites are lit about 90% of the time near the ground and more on a mast, and their longest darkness lasts 1.5 to 5 days ([Mazarico et al.](https://ntrs.nasa.gov/citations/20120010094); [Gläser et al.](https://ui.adsabs.harvard.edu/abs/2014Icar..243...78G)). A 20% array on a sun-tracking mast:
 
@@ -461,6 +483,8 @@ The program's real output is a measured import ledger: what the loop cannot make
 
 **Prior work.** The 1980 NASA summer study proposed a 100-ton self-replicating lunar factory. It cited earlier estimates that 90 to 96% closure by mass was attainable, with the remainder being vitamin parts: microelectronics, ball bearings and precision instruments ([NASA CP-2255, chapter 5](https://NSS.org/wp-content/uploads/2017/07/1982-Self-Replicating-Lunar-Factory.pdf)). Metzger and colleagues modelled a 12-tonne seed growing over six generations and about 20 years, importing computer chips until the fifth ([Metzger et al.](https://arxiv.org/abs/1612.03238)). Ellery has argued that lunar materials suffice to make vacuum tubes, and proposed tube-based analog neural networks as the electronics a lunar factory could build for itself ([Ellery](https://carleton.ca/ceser/wp-content/uploads/ISRU-Neural-Computing.pdf)). Evaporating thin-film devices in space vacuum has precedent too: the Wake Shield Facility grew semiconductor films behind a free-flying disk on Shuttle flights in 1995 and 1996 ([University of Houston](https://uh.edu/svec/wsfp-desc.html)), and the same group proposed a rover that evaporates solar cells onto melted regolith ([Freundlich et al.](https://ntrs.nasa.gov/citations/20050110155)). Nor is the cold-trap computer new: a NASA Tech Brief proposed superconducting computers in shadowed craters [in 2010](https://www.techbriefs.com/component/content/article/8172-ssc-00259-1). What this brief adds is the combination: a resist-free superconducting process as the route to local electronics, with a cold-trap computer as its first product. We found no earlier proposal that joins the two.
 
+Lunar chipmaking has also been raised by a chipmaker. In September 2026 the chief executive of Rapidus, in Japan, said he was seriously considering a lunar plant around 2040 ([Tencent News, in Chinese](https://news.qq.com/rain/a/20260912A04SUJ00)). That proposal is for conventional silicon and turns on lunar water. The Chinese-language search found commentary on lunar data centres and on quantum computing in shadowed craters, but no proposal for superconducting inference hardware built there.
+
 **The quantity to measure.** Closure by mass is the wrong metric. A loop can be 99.9% closed by mass and still die for want of a 15 kg laser. Measure instead the import rate that sustains a stated capability indefinitely:
 
 ```math
@@ -593,6 +617,7 @@ The risks that could end the program are scale, patterning and chemistry. The ph
 | Lander or launch failure | medium | years of delay | several small precursors, duplicate payloads |
 | Export control on an AI payload | medium | permitting delay | engage early; use an openly licensed model |
 | Model weights unavailable or licensed | low | a different model | the hardware is model-agnostic; rung 0 uses an open model |
+| Ice measured in place arrives late: Chang'e-7 missed its 2026 window | medium | site assumptions rest on two orbital-era measurements for longer | keep the 40 K design margin; fix the site after the first precursor |
 
 Likelihoods are judgments, not statistics. The first three rows are new in this revision, and they are where Phase 1 spends most of its money.
 
@@ -722,6 +747,8 @@ The first version of this brief was dated 31 October 2026. The revision of 11 No
 - **Program.** Five phases, a ladder of oracles and a rehearsal on Earth replace three phases and one large lander. The cost is $6 to 17B over about 15 years, not under $10B over ten (section 12).
 - **Credit and sources.** Earlier work is cited, the closure metric is an import rate in place of a mass fraction, and the public figures are sourced (section 11 and below).
 
+A second pass on 11 November searched Chinese-language sources, which the first source check had not done. It added a paragraph to section 8, shorter notes to sections 6 and 11, one row to the risk register, the references listed last under Sources, and an abstract in English and Chinese. No figure changed.
+
 ## Sources
 
 These pages were opened and read on 11 November 2026 to check the figures marked sourced. Several are abstracts, slides or secondary copies of the primary paper, and a few values rest on single samples or a scanned table, as the appendix notes.
@@ -776,3 +803,12 @@ These pages were opened and read on 11 November 2026 to check the figures marked
 - [NASA plans for two Artemis cargo landers](https://www.nasa.gov/news-release/nasa-plans-to-assign-missions-for-two-future-artemis-cargo-landers/); [Blue Moon](https://www.blueorigin.com/blue-moon)
 - [Polar lunar regions: exploiting natural and augmented thermal environments](https://www.techbriefs.com/component/content/article/8172-ssc-00259-1), NASA Tech Briefs, 2010
 - [NASA Space Environments Complex](https://www.nasa.gov/glenn/armstrong-test-facility/space-environments-complex/)
+
+**Added from the Chinese-language search**
+
+- [Chang'e-7 does not meet launch conditions](https://www.cnsa.gov.cn/n6758823/n6758838/c10770822/content.html), China National Space Administration, 23 August 2026 (in Chinese)
+- [Model of potential lunar water ice locations ahead of Chang'e-7](https://www.china-in-space.com/p/scientists-publish-model-of-potential), China in Space: secondary account of a 2026 Planetary Science Journal paper
+- [Strategy for massive water production on the Moon](https://phys.org/news/2024-08-strategy-massive-production-moon.html), Phys.org: account of a 2024 paper in The Innovation
+- [Lunar regolith 3D printing system](https://www.stdaily.com/web/gdxw/2025-07/28/content_376413.html), Science and Technology Daily, 2025 (in Chinese)
+- [Ying et al., 15 kA/cm² fabrication process for superconducting digital circuits](https://arxiv.org/abs/2304.01588)
+- [Rapidus wants to make chips on the Moon](https://news.qq.com/rain/a/20260912A04SUJ00), Tencent News, 2026 (in Chinese)
