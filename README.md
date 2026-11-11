@@ -14,7 +14,7 @@ Revised November 11, 2026. This revision corrects the sizing of the Earth machin
 
 Shadow Foundry is an order-of-magnitude design study of how simple the hardware can be and still run a frontier-scale AI model, if speed is given up. The working case is a 2-trillion-parameter mixture-of-experts model with 200 billion parameters active per token, stored at 4 bits per weight (1.2 TB with error correction). The study finds that storage, not computation, sets the technology floor.
 
-Two machines are worked through. The first is an Earth machine built on 350 or 180 nm chip processes, with weights held in read-only or one-time-programmable memory. It runs about 20 tokens per second on 10–30 kW. The second is a machine in a permanently shadowed crater at a lunar pole, using niobium-nitride superconducting logic at 8–10 K, patterned without photoresist by stencil or laser scribing, with weights stored as laser-programmed inductive links on about 14,000 m² of tile. It produces one token every 10 seconds per stream, across about 100 streams, on roughly 0.5 kW.
+Two machines are worked through. The first is an Earth machine built on 350 or 180 nm chip processes, with weights held in read-only or one-time-programmable memory. It runs about 20 tokens per second on 10–30 kW. The second is a machine in a permanently shadowed crater at a lunar pole, using niobium-nitride superconducting logic at 8–10 K, patterned without photoresist by stencil or laser scribing, with weights stored as laser-programmed inductive links on about 14,000 m² of tile. It produces one token every 10 seconds per stream, across about 100 streams, on roughly 0.5 kW. The crater machine is not the efficient choice: silicon made on Earth and landed on the Moon would give more tokens per watt and per kilogram. Its case is that it could be made there, from local materials.
 
 The brief derives every figure in the open and tags each with its basis and uncertainty. It closes with a five-phase, gated research program of about $6–17B over 15 years, of which the first three phases, all on Earth, total $130–260M. Progress toward self-sufficiency is measured by the mass imported from Earth per year. Nothing described here has been built, and no specialist has yet reviewed the work.
 
@@ -22,7 +22,7 @@ The brief derives every figure in the open and tags each with its basis and unce
 
 “影子铸造厂”（Shadow Foundry）是一项以数量级为尺度的设计研究，要回答的是：若不再追求速度，运行前沿级大模型的硬件究竟能简单到什么地步。研究对象是一个两万亿参数的混合专家模型，每个词元激活约两千亿参数，权重以4比特精度存储（算上纠错开销共1.2 TB）。研究发现，决定技术下限的是存储，而不是计算。
 
-文中推演了两种机器方案。第一台建在地球上，采用350或180纳米制程，权重存放在掩膜只读存储器或一次性可编程存储器中，功耗10至30千瓦，每秒约20个词元。第二台位于月球极区永久阴影区的撞击坑内，采用在8至10 K下工作的氮化铌超导逻辑，图形经镂空掩膜成形，或由激光刻划成形，全程不用光刻胶；权重以激光熔断编程的电感连接形式，存于约1.4万平方米的基板上。在约100路并发会话下，每路每10秒生成一个词元，整机功耗约500瓦。
+文中推演了两种机器方案。第一台建在地球上，采用350或180纳米制程，权重存放在掩膜只读存储器或一次性可编程存储器中，功耗10至30千瓦，每秒约20个词元。第二台位于月球极区永久阴影区的撞击坑内，采用在8至10 K下工作的氮化铌超导逻辑，图形经镂空掩膜成形，或由激光刻划成形，全程不用光刻胶；权重以激光熔断编程的电感连接形式，存于约1.4万平方米的基板上。在约100路并发会话下，每路每10秒生成一个词元，整机功耗约500瓦。这台机器并不高效：把地球上制造的硅芯片运上月球，每瓦、每千克能产出的词元都更多；它的意义在于可以用月球本地材料就地制造。
 
 文中每个数字都给出推导，并注明依据与不确定度。文末给出一份分五个阶段、逐阶段设关口的研究计划，15年内约需60亿至170亿美元；其中前三个阶段全部在地球上完成，合计1.3亿至2.6亿美元。自给程度以每年仍需从地球运入的质量来衡量。上述一切均尚未建成，也未经相关领域专家评审。
 
@@ -41,7 +41,7 @@ Conventions:
 
 The argument runs in three parts. Sections 1 to 5 size an Earth-side machine on 1980s and 1990s process technology. Sections 6 to 10 move the design to the lunar pole, cold and slow, and end with a reference design for the crater machine. Sections 11 to 14 are the program: the experiment, the money, the risks, and what carries over to the asteroid belt.
 
-**Authorship and AI use.** This brief was written with Claude, Anthropic's AI model, over a series of conversations in October and November 2026. Carl Quillen posed the questions, set the direction and reviewed the results. Claude proposed much of the design, did the arithmetic, drafted the text and figures, and ran the source checks, some of them through automated research agents. A conversation with Google's Gemini prompted the corrections to the cooling design. No human specialist has yet reviewed the work; that review is Phase 0 of the program. Carl Quillen takes responsibility for the published content.
+**Authorship and AI use.** This brief was written with Claude, Anthropic's AI model, over a series of conversations in October and November 2026. Carl Quillen posed the questions, set the direction and reviewed the results. Claude proposed much of the design, did the arithmetic, drafted the text and figures, and ran the source checks, some of them through automated research agents. A conversation with Google's Gemini prompted the corrections to the cooling design. A critique by Alibaba's Qwen prompted the comparison with landed silicon and the other changes of the third pass listed at the end, and Qwen also reviewed the Chinese abstract. No human specialist has yet reviewed the work; that review is Phase 0 of the program. Carl Quillen takes responsibility for the published content.
 
 ## 1. The model being hosted
 
@@ -55,7 +55,7 @@ The machine has to hold about 1.2 terabytes of weights (2 trillion parameters at
 N_{ops} \approx N_{active} = 2 \times 10^{11} \text{ MAC/token} \approx 4 \times 10^{11} \text{ FLOP/token}
 ```
 
-Attention adds about two operations per context position, per hidden element, per layer. That is roughly 10<sup>10</sup> at an 8,000-token context, under a tenth of the feed-forward term, and about 2×10<sup>11</sup> at 128,000 tokens, where it matches it. Those operations run against the context cache, which is read-write memory: about 13 GB per conversation at 8,000 tokens with 8-bit keys and values. Sections 3 and 9 treat that cache separately from the read-only weights, because it is the hard part.
+Attention adds about two operations per context position, per hidden element, per layer. That is roughly 10<sup>10</sup> at an 8,000-token context, under a tenth of the feed-forward term, and about 2×10<sup>11</sup> at 128,000 tokens, where it matches it. Those operations run against the context cache, which is read-write memory: about 13 GB per conversation at 8,000 tokens with 8-bit keys and values. That is an upper figure: it assumes full-width keys and values in every layer. Current models share keys and values across groups of attention heads, which with 4-bit storage cuts the cache 8 to 16 times, to about 1 GB. Sections 3 and 9 treat that cache separately from the read-only weights, because it is the hard part.
 
 **Storage.** Quantized to 4 bits per weight plus error-correction overhead:
 
@@ -71,7 +71,7 @@ Ternary weights (about 1.6 bits each) would cut this to 0.4 to 0.5 TB with some 
 B_{token} = 2 \times 10^{11} \times 0.5 \text{ byte} = 100 \text{ GB/token}
 ```
 
-This is the number that drives the whole architecture. At one token per second it is 800 Gbit/s of sustained read bandwidth. Batching across users divides it by the batch size, because the same weight read serves every sequence in the batch.
+This is the number that drives the whole architecture. At one token per second it is 800 Gbit/s of sustained read bandwidth. Batching across users divides it by the batch size, because the same weight read serves every sequence in the batch. In a mixture-of-experts model that holds only for sequences routed to the same experts, so the gain is smaller than the batch size.
 
 | Quantity | Value | Basis |
 | --- | --- | --- |
@@ -81,7 +81,7 @@ This is the number that drives the whole architecture. At one token per second i
 | Storage at 4-bit | 1.0 TB | est. |
 | Storage with ECC | 1.2 TB | est., 20% overhead |
 | Weight bytes read per token | 100 GB | est. |
-| KV cache, 8k context | ~13 GB per stream | est., model-dependent |
+| KV cache, 8k context | ~1–13 GB per stream | est., model-dependent |
 
 ## 2. Why storage sets the floor, not compute
 
@@ -114,7 +114,7 @@ N_{units} = \frac{S_{ECC}}{C_{unit}} = \frac{1.2 \times 10^{12} \text{ B}}{C_{un
 
 So a building-sized installation needs 1980s-or-later storage density, whatever the logic is made of. The 350 nm era is the first in which the weights fit in a few hundred wafers of silicon, and that is why the reference machine in section 3 starts there.
 
-**Bandwidth is the second constraint.** Even with the capacity in hand, 100 GB per token must be read. A single tape or disk head reads at 10<sup>8</sup> to 10<sup>9</sup> bit/s, so at batch size 1 a single stream would take 10<sup>3</sup> to 10<sup>4</sup> seconds per token. Two things fix this. Batching divides the per-token read by the batch size. Parallelism across many small memories with their own sense amplifiers multiplies the read rate, which is why the architecture moves activations to the weights rather than the reverse. That is section 3.
+**Bandwidth is the second constraint.** Even with the capacity in hand, 100 GB per token must be read. A single tape or disk head reads at 10<sup>8</sup> to 10<sup>9</sup> bit/s, so at batch size 1 a single stream would take 10<sup>3</sup> to 10<sup>4</sup> seconds per token. Two things fix this. Batching divides the per-token read by up to the batch size, and by less for a mixture-of-experts model (section 1). Parallelism across many small memories with their own sense amplifiers multiplies the read rate, which is why the architecture moves activations to the weights rather than the reverse. That is section 3.
 
 ## 3. Earth-side reference machine
 
@@ -162,7 +162,7 @@ Add a factor of 3 for clock trees, I/O and board losses: about 10 J per token. O
 
 **Mass and volume.** 34,000 dies at 100 dies per board on 340 boards, 32 boards per rack, is about 11 racks. At 300 to 400 kg per populated rack the machine is 3 to 5 tonnes and occupies 30 to 50 m² with aisles and cooling.
 
-**Context cache.** Each conversation needs about 13 GB of read-write memory at an 8,000-token context. In 350 nm DRAM at about 1 GB per wafer that is a dozen wafers per stream, so a hundred full-context streams would need more DRAM than the machine has ROM. Either contexts are short, or the cache uses denser stockpiled memory than the rest of the machine. It is omitted from the totals above and is the one part that is not read-only.
+**Context cache.** Each conversation needs 1 to 13 GB of read-write memory at an 8,000-token context. In 350 nm DRAM at about 1 GB per wafer that is between one wafer and a dozen per stream. A hundred full-context streams need 100 to 1,300 wafers of DRAM, against about 600 of ROM. Either contexts are short, or the cache uses denser stockpiled memory than the rest of the machine. It is omitted from the totals above and is the one part that is not read-only.
 
 |  | 350 nm | 180 nm |
 | --- | --- | --- |
@@ -267,6 +267,8 @@ Small cryocoolers reach only 2 to 5% of that ideal near 10 K, and 1 to 2% near 4
 | NbN | 8 K | 6.5 | 130–330 W/W | ~4,800 m² |
 | MgB₂ | 20 K | 2 | 40–100 W/W | ~120 m² |
 
+The radiator areas assume a plate that sees nothing but deep sky. Inside a 40 K cold trap or vault, a plate colder than 40 K gains heat from its surroundings. A passive stage below the local temperature therefore needs a shielded view of the sky from the surface, and its shields and supports bring heat leaks that this brief has not budgeted. The passive figures are bounds, not designs.
+
 **Operating temperatures and materials.** Candidate superconductors and their critical temperatures (public):
 
 | Material | T\_c | Operates comfortably below | Lunar availability |
@@ -335,11 +337,11 @@ The south polar region supplies a heat sink near 40 K, sunlight about 90% of the
 A = \frac{Q}{\epsilon \sigma \left(T_r^4 - T_s^4\right)} = \frac{100 \text{ W}}{0.9 \times 5.67 \times 10^{-8} \times \left(60^4 - 40^4\right)} \approx 190\ \text{m}^2 \text{ at } T_r = 60 \text{ K}
 ```
 
-The radiator is foil laid on the crater floor. Section 10 puts the cooler's reject heat at 130 to 330 W, which needs 250 to 620 m².
+The radiator is foil laid on the crater floor. The foil is warmer than the floor, so contact with the regolith carries heat away and helps. Section 10 puts the cooler's reject heat at 130 to 330 W, which needs 250 to 620 m².
 
 **Volatiles.** The cold traps hold what dry regolith lacks. The LCROSS impact plume was 5.6 ± 2.9% water by mass, with ammonia at about 6% of the water and carbon as carbon dioxide, methane, methanol and ethylene ([Colaprete et al.](https://www.chem.uci.edu/~unicorn/old/H2A/handouts/PDFs/LCROSSPaper.pdf)). That is roughly 3 g of ammonia per kilogram of that soil: nitrogen for the NbN process and carbon for lubricants, within reach of the vault. It cuts both ways. The same ice is a scientific record, and warm machinery in a cold trap will drive it off.
 
-**Recent Chinese work.** A search of Chinese-language sources on 11 November 2026 added four items that bear on the site. A 2026 thermal model of Shackleton crater from China's National Space Science Center finds most of the crater floor favourable for stable ice; only a secondary account of the paper was read ([China in Space](https://www.china-in-space.com/p/scientists-publish-model-of-potential)). Chang'e-7, which carries a hopper to look for ice inside a shadowed crater, was stood down on 23 August 2026 and missed that year's launch window ([CNSA, in Chinese](https://www.cnsa.gov.cn/n6758823/n6758838/c10770822/content.html)), so no measurement made in place is expected before 2027. Heating Chang'e-5 soil above 1,200 K released 51 to 76 mg of water per gram, from solar-wind hydrogen held mostly in ilmenite ([Ningbo Institute of Materials Technology and Engineering](https://phys.org/news/2024-08-strategy-massive-production-moon.html)). If that holds at scale, water is a by-product of melting regolith anywhere, and the foundry's hydrogen does not depend on the cold trap alone. And a solar concentrator feeding fibre bundles has melted regolith feedstock above 1,300 °C with no additives ([Deep Space Exploration Laboratory, in Chinese](https://www.stdaily.com/web/gdxw/2025-07/28/content_376413.html)), which is close to the step that makes tile substrates.
+**Recent Chinese work.** A search of Chinese-language sources on 11 November 2026 added four items that bear on the site. A 2026 thermal model of Shackleton crater from China's National Space Science Center finds most of the crater floor favourable for stable ice; only a secondary account of the paper was read ([China in Space](https://www.china-in-space.com/p/scientists-publish-model-of-potential)). Chang'e-7, which carries a hopper to look for ice inside a shadowed crater, was stood down on 23 August 2026 and missed that year's launch window ([CNSA, in Chinese](https://www.cnsa.gov.cn/n6758823/n6758838/c10770822/content.html)), so no measurement made in place is expected before 2027. Heating Chang'e-5 soil above 1,200 K released 51 to 76 mg of water per gram, from solar-wind hydrogen held mostly in ilmenite ([Ningbo Institute of Materials Technology and Engineering](https://phys.org/news/2024-08-strategy-massive-production-moon.html)). That is 5 to 8% by mass, far more hydrogen than solar-wind implantation is usually thought to supply, and it is a single result that has not been replicated. The design does not rely on it. If it holds at scale, water is a by-product of melting regolith anywhere, and the foundry's hydrogen does not depend on the cold trap alone. And a solar concentrator feeding fibre bundles has melted regolith feedstock above 1,300 °C with no additives ([Deep Space Exploration Laboratory, in Chinese](https://www.stdaily.com/web/gdxw/2025-07/28/content_376413.html)), which is close to the step that makes tile substrates.
 
 **Power.** Solar flux at 1 AU is 1,361 W/m². The best south-pole sites are lit about 90% of the time near the ground and more on a mast, and their longest darkness lasts 1.5 to 5 days ([Mazarico et al.](https://ntrs.nasa.gov/citations/20120010094); [Gläser et al.](https://ui.adsabs.harvard.edu/abs/2014Icar..243...78G)). A 20% array on a sun-tracking mast:
 
@@ -368,7 +370,7 @@ A supply and return pair doubles these. At kilovolt class the leak is negligible
 
 **Radiation and impacts.** There is no magnetosphere and no atmosphere. Galactic cosmic rays arrive at a few particles per cm² per second in free space and about half that at the surface ([Reedy](https://ntrs.nasa.gov/api/citations/19910073654/downloads/19910073654.pdf)). Meteoroids arrive at roughly one impact per square metre per year above a microgram, with thousands of slower ejecta grains besides (from the model in [NASA SP-8013](https://ntrs.nasa.gov/api/citations/19690030941/downloads/19690030941.pdf)). A sheet of 14,000 m² laid open on the floor would take tens of thousands of cratering hits a year. The oracle therefore goes in a vault: a pit or berm with about two metres of regolith over it, which stops the impacts and cuts the particle flux. ROM links cannot be upset. The logic needs error correction, spare units and periodic scrubbing.
 
-**Magnetic quiet.** Superconducting loops trap flux if they are cooled in a magnetic field, and coarse circuits have large loops. Apollo magnetometers read 3 to 327 nT at four surface sites ([NASA](https://ntrs.nasa.gov/citations/19750032420)), against 25,000 to 65,000 nT on Earth ([NOAA](https://www.ncei.noaa.gov/node/2048)). A 200 µm² loop encloses about five flux quanta in Earth's field and a thirtieth of one in the strongest field Apollo measured. The Moon removes the magnetic shielding that every terrestrial superconducting computer needs.
+**Magnetic quiet.** Superconducting loops trap flux if they are cooled in a magnetic field, and coarse circuits have large loops. Apollo magnetometers read 3 to 327 nT at four surface sites ([NASA](https://ntrs.nasa.gov/citations/19750032420)), against 25,000 to 65,000 nT on Earth ([NOAA](https://www.ncei.noaa.gov/node/2048)). A 200 µm² loop encloses about five flux quanta in Earth's field and a thirtieth of one in the strongest field Apollo measured. Large loops are another matter. A bit line a few centimetres long can enclose a square millimetre, which holds about 150 flux quanta even in the strongest field Apollo measured. The Moon removes most of the magnetic shielding that a terrestrial superconducting computer needs, not all of it: long lines still need flux moats, or a cooldown in a nulled field.
 
 **Dust.** Sunlight and plasma charge the dust, and it clings. NASA's electrodynamic dust shield cleared regolith from glass and radiator surfaces [on the Moon in March 2025](https://www.nasa.gov/image-article/nasas-dust-shield-successfully-repels-lunar-regolith-on-moon), so the mitigation is proven in flight at small scale.
 
@@ -415,7 +417,7 @@ That is the largest dissipation in the cold machine, and for one stream it is st
 
 **A denser option.** A bit line adds flux linearly. If many word lines are pulsed at once it computes a dot product inside the memory, and one comparator chain replaces a multiply unit. Small AQFP crossbars have been built, with signal attenuation limiting their size ([Li et al.](https://ar5iv.labs.arxiv.org/html/2309.12212)). It is a research option and is not in the baseline.
 
-**Working memory.** Read-write memory is the weak point. A superconducting RAM cell needs junctions in every bit: about 100 F² and three junctions (est.), against 10 F² and a hundredth of a junction for ROM. The context cache of section 1 is 10<sup>11</sup> bits at 8,000 tokens. That would be 1,000 m² and 3×10<sup>11</sup> junctions, more active devices than the rest of the machine. There are two ways out. The baseline keeps the context cache on an imported cryogenic CMOS memory module at the 40 K stage: a few hundred grams that stay on the import list. The alternative that imports nothing is a short context with compressed keys and values. A thousand tokens at one-sixteenth width is 8×10<sup>8</sup> bits, about 8 m² and 2×10<sup>9</sup> junctions.
+**Working memory.** Read-write memory is the weak point. A superconducting RAM cell needs junctions in every bit: about 100 F² and three junctions (est.), against 10 F² and a hundredth of a junction for ROM. The context cache of section 1 is 10<sup>11</sup> bits at 8,000 tokens. That would be 1,000 m² and 3×10<sup>11</sup> junctions, more active devices than the rest of the machine. With grouped 4-bit keys and values it is about 6×10<sup>9</sup> bits, which is 60 m² and 2×10<sup>10</sup> junctions, still a fifth as many as the rest of the machine. There are two ways out. The baseline keeps the context cache on an imported cryogenic CMOS memory module at the 40 K stage: a few hundred grams that stay on the import list. The alternative that imports nothing is a short context with compressed keys and values. A thousand tokens at one-sixteenth width is 8×10<sup>8</sup> bits, about 8 m² and 2×10<sup>9</sup> junctions.
 
 ## 10. The crater machine
 
@@ -449,6 +451,8 @@ t_{token} = 100\ \text{layers} \times \frac{2 \times 10^{9}\ \text{MAC}}{3.2 \ti
 
 About a hundred conversations interleave across the layers, for roughly ten tokens a second in aggregate. A 500-token answer takes about an hour and a half. A 100 MHz clock, which the junctions allow, would make it eight minutes; the 10 MHz figure is cautious about distributing a clock over large tiles.
 
+**Routing is undesigned.** Each token uses a different tenth of the experts in every layer. Activations have to be steered to whichever tiles hold those experts, and a hundred interleaved streams have to be scheduled so that no two need the same units at once. Neither the steering network nor the scheduler is designed here. The hundred-stream figures, for this machine and for the one in section 3, assume both can be built.
+
 **Reference design.**
 
 | Quantity | 10 µm features | 5 µm features |
@@ -471,11 +475,25 @@ About a hundred conversations interleave across the layers, for roughly ten toke
 
 **Energy, stated plainly.** The cold stage dissipates about 2 mJ per token, against roughly a joule for a datacentre GPU. But the cooler runs whether or not the oracle is thinking. At 200 W and one stream that is 2,000 J per token; at full load it is 20 J. The crater machine is frugal in watts, not in joules per token. Its case rests on closure, not efficiency.
 
+**Alternatives not taken.** The comparison a reviewer will ask for first is with silicon made on Earth and landed. Using the 180 nm machine of section 3:
+
+|  | Landed 180 nm silicon | Crater oracle, 10 µm |
+| --- | --- | --- |
+| Aggregate speed | ~2,000 token/s | ~10 token/s |
+| Power | 3–7 kW | ~0.5 kW |
+| Watts per token per second | 1.5–3.5 | ~50 |
+| Mass | 1–2 t, all imported | ~7 t of local glass, plus an imported cooler |
+| Radiator | 4–9 m² at 350 K | 250–620 m² at 60 K |
+| New scale risk | none | 100,000 times the junction record |
+| Can be made on the Moon | no | that is the proposal |
+
+The crater oracle draws fewer watts in total and can be made in place. Landed silicon wins every other row. A second alternative keeps some of the benefit of the cold: coarse CMOS run at 100 to 150 K, with no cryocooler and no junction-count risk. Its 3 to 7 kW would need about 120 to 270 m² of radiator at 150 K. It is not worked here and should be, but it too is an import. Valves, which Ellery proposes for logic, are already in this plan for power and radio (section 11). The crater machine's justification is that it can be built where it stands. For a decade or more it would be far worse than landed silicon at every point on the token curve, and anyone who wants tokens on the Moon should land silicon.
+
 **The junction count is the number to respect.** About 10<sup>11</sup> junctions is 100,000 times the largest superconducting circuit yet reported (section 6). Most of them are line drivers, comparators and sequencers, one set per thousand cells, so the count follows the memory and not the speed. Longer lines with stronger word pulses would cut it. Each rung of the ladder in section 12 multiplies the junction count by 15 to 35, and rung 0, at several million, is already about six times the record.
 
 **Building it.** Scribing 14,000 m² takes about 18 laser-years and programming it 1.5 more (sections 7 and 9): a few years for ten lasers. The vault, the cooler, the radiator and the power tether are small beside that.
 
-**Lifetime.** Nothing in the block moves, and nothing in it wears. The parts that do are the cooler's compressor and the warm electronics. The endpoint with no moving parts at all is MgB₂ logic at 20 K behind a passive radiator of about 120 m² per watt (section 6). Until then, the oracle outlasts its makers only for as long as someone, or something, replaces its cooler.
+**Lifetime.** Nothing in the block moves, and nothing in it wears. The parts that do are the cooler's compressor and the warm electronics. The endpoint with no moving parts at all would be MgB₂ logic at 20 K behind a passive radiator, but a plate at 20 K cannot shed heat into 40 K surroundings, so that endpoint needs a shielded sky view that is not designed here (section 6). Until then, the oracle outlasts its makers only for as long as someone, or something, replaces its cooler.
 
 ## 11. The closure experiment
 
@@ -534,6 +552,8 @@ The program is five phases over about 15 years and $6 to 17B. The first three ph
 
 Each gate is pass or fail on something that exists or does not. Phases overlap, so a failed gate stops the next phase before its large commitments.
 
+**Two questions, separately fundable.** The closure question is whether working electronics can be made from lunar materials without resist. Phase 1 and a reduced Phase 2 answer it for under $300M, with no large model involved. The full oracle is the framing that sets the storage target. A sponsor can fund the first without committing to the second. Measured in tokens per dollar, the whole program loses to terrestrial hardware by many orders of magnitude. Its product is a capability, and the ledger of section 11 is the deliverable.
+
 **The ladder.** From Gate 2 on, every gate is a working oracle. Rung 0 is built twice, once in the rehearsal chamber and once in an Earth foundry for flight, and the lunar foundry then builds rungs 1 and 2. Rungs are sized at 4 bits per weight with error correction, on the tile design of section 9:
 
 | Rung | Model | Stored bits | Tile area at 10 µm features | At 5 µm | Built in |
@@ -545,7 +565,7 @@ Each gate is pass or fail on something that exists or does not. Phases overlap, 
 
 Made on Earth at 1 µm features, rung 0 fits on a third of a 200 mm wafer and rung 1 on about five.
 
-**Phase 0, paper, months 0–6, under $1M.** Source every figure in this brief. Commission three specialist reviews: superconducting process, lunar thermal environment, and extractive metallurgy. Settle the device family, and sign partners for refining and landing. Gate 0: the reviews find no fatal flaw, or they name it.
+**Phase 0, paper, months 0–6, under $1M.** Source every figure in this brief. Commission three specialist reviews: superconducting process, lunar thermal environment, and extractive metallurgy. Settle the device family, and sign partners for refining and landing. The reviewers get seven questions: the ROM read margin and how a word pulse's signals are separated; patterning throughput and stencil life; junction yield and how defects cluster; the heat load at 8 K; whether AQFP or a latching family better suits 10 µm features and a 10 MHz clock; whether any passive stage below 40 K is feasible; and the Chang'e-5 water yield. They should also compare the ROM cell of section 9 with the flux-storage circuits in commercial quantum annealers, which this brief has not done. Gate 0: the reviews find no fatal flaw, or they name it.
 
 **Phase 1, bench, years 1–3, $30–60M.** Parallel experiments in an existing superconducting lab. Each has a number that ends that line of work if it is missed:
 
@@ -559,9 +579,11 @@ Made on Earth at 1 µm features, rung 0 fits on a third of a 200 mm wafer and ru
 | Feedstock | junctions whose aluminium and glass come from electrolysed simulant meet the first row |
 | Warm electronics | a thermionic valve built from simulant-derived metal runs 1,000 hours in a dirty vacuum |
 
-Gate 1: a tile of about 20 cm², carrying a 1 Mbit ROM and its multiply units, runs a small network at 8 to 10 K. The cost is 30 to 50 people for three years plus equipment and foundry access.
+Gate 1: a tile of about 20 cm², carrying a 1 Mbit ROM and its multiply units, runs a small network at 8 to 10 K. That tile holds roughly 10<sup>4</sup> to 10<sup>5</sup> junctions (est.), so two checkpoints come first: working circuits of 10<sup>3</sup> and then 10<sup>4</sup> junctions, with the clustering of defects measured on each. The cost is 30 to 50 people for three years plus equipment and foundry access.
 
 **Phase 2, rehearsal on Earth, years 2–5, $100–200M.** The whole loop runs in a large thermal-vacuum chamber: a simulant bed, an electrolysis cell, deposition heads, a 40 K shroud around a cooled vault, robots, a 2.5-second command delay and an AI operator running on an ordinary computer. Everything that enters the chamber after the door closes is weighed and logged. Chambers of the needed size exist and can be hired; NASA's [Space Power Facility](https://www.nasa.gov/glenn/armstrong-test-facility/space-environments-complex/) is 22,653 m³. Gate 2: one square metre of tile, made in the chamber, runs a GPT-2-class model, and the import ledger for a year of operation is published. This is the cheapest place to find the thousandth missing input, and the first version of this brief skipped it.
+
+Gate 2 is close to the whole thesis working, and its price may be low by several times. It can be staged: imported feedstock before simulant, and 99% junction yield before 99.9%.
 
 **Phase 3, lunar precursors, years 4–8, $0.5–1.5B.** Two or three payloads of 100 to 400 kg on commercial landers, in place of one large plant:
 
@@ -577,7 +599,7 @@ Small-lander deliveries have been contracted at $0.4 to 1.0M per kilogram landed
 C_{4} \approx 10\text{–}20\ \text{t} \times \left( \$0.3\text{–}0.5\text{M/kg to develop and build} + \$0.1\text{–}0.4\text{M/kg to land} \right) \approx \$4\text{–}18\text{B}; \quad \text{take } \$5\text{–}15\text{B}
 ```
 
-The development rate assumes economies of scale over small missions: NASA's VIPER rover was projected at [$609.6M for 430 kg](https://spaceflightnow.com/2024/07/18/nasa-cancels-half-billion-dollar-water-ice-seeking-moon-rover/), about $1.4M per kilogram. No price per kilogram has been published for the large landers, so the landing rate is an estimate. Gate 4: a rung-1 oracle built on the Moon, then a year with imports under 100 kg and the Earth link cut.
+The development rate assumes economies of scale over small missions: NASA's VIPER rover was projected at [$609.6M for 430 kg](https://spaceflightnow.com/2024/07/18/nasa-cancels-half-billion-dollar-water-ice-seeking-moon-rover/), about $1.4M per kilogram. No price per kilogram has been published for the large landers, so the landing rate is an estimate. Mass times a rate also mixes lander development with payload hardware; a bill of materials would be the better model and could move the figure either way. Gate 4: a rung-1 oracle built on the Moon, then a year with imports under 100 kg and the Earth link cut.
 
 **After the program.** Rung 3, the full two-trillion-parameter oracle, is a manufacturing campaign of roughly 20 laser-years or 100 deposition-head-years (section 7). It is the reason for the program, and it is outside the costed part.
 
@@ -618,6 +640,11 @@ The risks that could end the program are scale, patterning and chemistry. The ph
 | Export control on an AI payload | medium | permitting delay | engage early; use an openly licensed model |
 | Model weights unavailable or licensed | low | a different model | the hardware is model-agnostic; rung 0 uses an open model |
 | Ice measured in place arrives late: Chang'e-7 missed its 2026 window | medium | site assumptions rest on two orbital-era measurements for longer | keep the 40 K design margin; fix the site after the first precursor |
+| Defects cluster: a pinhole or dust grain kills a region, not one junction | high | unit yield well below the 55% that independent defects give | spare units and spare tiles in every stack; Phase 1 measures clustering |
+| Tiles in a sealed block at 8 K cannot be reached; tile-to-tile interconnect is undesigned | high | one failed tile or joint degrades the whole stack | edge connectors, spare tiles, test before stacking; design in Phase 1 |
+| Expert routing and stream scheduling are undesigned | medium | far fewer than a hundred streams | design in Phase 0; accept fewer streams |
+| No passive stage is possible below the 40 K surroundings | medium | the cooler stays an import for good | study a shielded sky-view radiator; redundant coolers |
+| Weights are frozen once the links are cut | certain | the oracle ages with its model; a new model means new tiles | accepted: it is an oracle, not a service |
 
 Likelihoods are judgments, not statistics. The first three rows are new in this revision, and they are where Phase 1 spends most of its money.
 
@@ -646,7 +673,7 @@ Each figure below is tagged with its basis. *Sourced* means a page stating it wa
 | Active parameters per token | 2×10<sup>11</sup> | assumed MoE shape | model-dependent | 1 |
 | Layers; hidden size | 100; ~8,000 | assumed | model-dependent | 1 |
 | MAC per token | 2×10<sup>11</sup> | one per active weight | 1.1× at 8,000-token context | 1 |
-| Context cache, 8,000 tokens | ~13 GB | arithmetic, 8-bit keys and values | 2× | 1 |
+| Context cache, 8,000 tokens | ~13 GB | arithmetic, full-width 8-bit keys and values; about 1 GB with grouped 4-bit ones | 2× | 1 |
 | Storage, 4-bit + ECC | 1.2 TB | arithmetic | 1.2× | 1 |
 | Weight bytes read per token | 100 GB | arithmetic | 1.2× | 1 |
 | Historical FLOPS (Cray-2, CDC 6600, IBM 704) | 2 GFLOPS, 3 MFLOPS, 40 kFLOPS | recalled | 2× | 2 |
@@ -748,6 +775,8 @@ The first version of this brief was dated 31 October 2026. The revision of 11 No
 - **Credit and sources.** Earlier work is cited, the closure metric is an import rate in place of a mass fraction, and the public figures are sourced (section 11 and below).
 
 A second pass on 11 November searched Chinese-language sources, which the first source check had not done. It added a paragraph to section 8, shorter notes to sections 6 and 11, one row to the risk register, the references listed last under Sources, and an abstract in English and Chinese. No figure changed.
+
+A third pass on 11 November answered a critique from an AI reviewer, Alibaba's Qwen. It added the comparison with landed silicon and cold CMOS (section 10) and a sentence in the abstract saying the crater machine is not the efficient choice. It marked the passive-cooling endpoint as unproven (sections 6 and 10), turned the context-cache estimate into a range of 1 to 13 GB (sections 1, 3 and 9), and corrected the batching claim for mixture-of-experts models (sections 1 and 2). It noted that routing between experts is undesigned, that large loops still trap flux, and that the Chang'e-5 water yield is a single surprising result. It added five rows to the risk register, staged Gates 1 and 2, gave Phase 0 its list of questions, and separated the closure question from the oracle (section 12). Three of the critique's points were checked and not adopted: a radiator warmer than the floor loses heat to it, AQFP gates are driven by flux and do not need a fast clock, and the wafer counts for rungs 0 and 1 stand.
 
 ## Sources
 
